@@ -1,0 +1,2735 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>搭搭星球 - 年轻人的穿搭灵感社区</title>
+<style>
+/* ========================================
+   搭搭星球 - CSS Design System
+   Hand-drawn illustration style UI
+   ======================================== */
+
+:root {
+  --bg: #FFFFFF;
+  --paper: #FFFCF7;
+  --text: #2D2D2D;
+  --text-light: #6B6B6B;
+  --text-muted: #A0A0A0;
+  --red: #FF4757;
+  --yellow: #FFD93D;
+  --blue: #4A90FF;
+  --green: #5EDC7C;
+  --orange: #FF8C42;
+  --pink: #FF6B8A;
+  --purple: #A78BFA;
+  --border: #E8E4DF;
+  --border-hand: #D4CFC8;
+  --shadow: rgba(0,0,0,0.04);
+  --font-main: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  --font-hand: 'KaiTi', 'STKaiti', 'Kai', serif;
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 22px;
+  --radius-xl: 28px;
+  --phone-w: 402px;
+  --phone-h: 874px;
+  --phone-outer-w: 432px;
+  --phone-outer-h: 906px;
+  --phone-frame-pad: 15px;
+  --phone-bezel: #1A1A1D;
+  --phone-titanium: #3A3A3C;
+  --phone-titanium-light: #4A4A4D;
+  --phone-corner-outer: 56px;
+  --phone-corner-inner: 46px;
+  --dynamic-island-w: 126px;
+  --dynamic-island-h: 37px;
+  --dynamic-island-r: 44px;
+  --status-bar-h: 59px;
+}
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--font-main);
+  background: #F0EDE8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ========================================
+   iPhone 16 Pro Frame — Exact Specs
+   Physical: 149.6×71.45mm, Bezel 1.44mm
+   Logical: 402×874pt @3x, DPR=3
+   ======================================== */
+
+.phone-outer {
+  width: var(--phone-outer-w);
+  height: var(--phone-outer-h);
+  border-radius: var(--phone-corner-outer);
+  position: relative;
+  flex-shrink: 0;
+  /* Titanium frame with subtle metallic gradient */
+  background: linear-gradient(180deg, #3C3C40 0%, #2C2C30 30%, #38383D 50%, #2A2A2E 70%, #35353A 100%);
+  /* Outer highlight ring */
+  box-shadow:
+    0 0 0 1px #5A5A60,
+    0 0 0 2px #1A1A1D,
+    0 0 0 4px #2D2D32,
+    0 0 0 5px #1A1A1D,
+    inset 0 0 0 1px rgba(255,255,255,0.04),
+    0 30px 70px rgba(0,0,0,0.40),
+    0 10px 25px rgba(0,0,0,0.25);
+}
+
+/* Titanium texture grain */
+.phone-outer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--phone-corner-outer);
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(255,255,255,0.008) 2px,
+    rgba(255,255,255,0.008) 3px
+  );
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* Side button — right (Power/Side button) */
+.phone-btn-right {
+  position: absolute;
+  right: -3px;
+  top: 190px;
+  width: 3px;
+  height: 80px;
+  background: linear-gradient(180deg, #4A4A50, #35353A);
+  border-radius: 0 2px 2px 0;
+  z-index: 0;
+}
+
+/* Volume up — left */
+.phone-btn-vol-up {
+  position: absolute;
+  left: -3px;
+  top: 180px;
+  width: 3px;
+  height: 50px;
+  background: linear-gradient(180deg, #4A4A50, #35353A);
+  border-radius: 2px 0 0 2px;
+  z-index: 0;
+}
+
+/* Volume down — left */
+.phone-btn-vol-down {
+  position: absolute;
+  left: -3px;
+  top: 240px;
+  width: 3px;
+  height: 50px;
+  background: linear-gradient(180deg, #4A4A50, #35353A);
+  border-radius: 2px 0 0 2px;
+  z-index: 0;
+}
+
+/* Action button — left, above volume */
+.phone-btn-action {
+  position: absolute;
+  left: -3px;
+  top: 135px;
+  width: 3px;
+  height: 28px;
+  background: linear-gradient(180deg, #4A4A50, #35353A);
+  border-radius: 2px 0 0 2px;
+  z-index: 0;
+}
+
+/* Inner bezel ring (the 1.44mm black border around screen) */
+.phone-bezel-inner {
+  position: absolute;
+  inset: var(--phone-frame-pad);
+  border-radius: var(--phone-corner-inner);
+  background: #0A0A0B;
+  z-index: 1;
+}
+
+/* The actual display/screen */
+.phone-screen {
+  position: absolute;
+  inset: var(--phone-frame-pad);
+  background: var(--bg);
+  border-radius: var(--phone-corner-inner);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  z-index: 2;
+}
+
+/* ── Dynamic Island (pill cutout, exact 126×37pt, radius 44pt) ── */
+.dynamic-island {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: var(--dynamic-island-w);
+  height: var(--dynamic-island-h);
+  background: #0A0A0B;
+  border-radius: var(--dynamic-island-r);
+  z-index: 1000;
+  /* Subtle inner shadow for depth */
+  box-shadow: inset 0 0 2px rgba(0,0,0,0.6);
+}
+
+/* ── iOS 18 Status Bar (59pt safe area) ── */
+.status-bar {
+  height: var(--status-bar-h);
+  padding: 15px 28px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 999;
+  font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+  font-weight: 590;
+  -webkit-font-smoothing: antialiased;
+}
+
+.status-bar .time {
+  font-size: 15px;
+  font-weight: 590;
+  color: #000;
+  letter-spacing: -0.2px;
+  width: 54px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.status-bar .spacer {
+  flex: 1;
+  min-width: 20px;
+}
+
+.status-icons {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.status-icons svg {
+  display: block;
+}
+
+/* ── SF Pro style signal bars ── */
+.signal-bars { display: flex; gap: 1.5px; align-items: flex-end; height: 12px; }
+.signal-bars .bar {
+  width: 2.8px;
+  background: #000;
+  border-radius: 0.6px;
+}
+.signal-bars .bar:nth-child(1) { height: 4px; }
+.signal-bars .bar:nth-child(2) { height: 6px; }
+.signal-bars .bar:nth-child(3) { height: 9px; }
+.signal-bars .bar:nth-child(4) { height: 12px; }
+
+/* ── SF Pro style WiFi ── */
+.wifi-icon-sf {
+  width: 16px;
+  height: 12px;
+  position: relative;
+}
+.wifi-icon-sf svg { width: 16px; height: 12px; display: block; }
+
+/* ── SF Pro style Battery ── */
+.battery-sf {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+}
+.battery-sf svg { display: block; }
+.battery-pct {
+  font-size: 12px;
+  font-weight: 500;
+  color: #000;
+  letter-spacing: -0.1px;
+  margin-left: 1px;
+}
+
+/* ========================================
+   App Container
+   ======================================== */
+
+.app-container {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+.page {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: var(--bg);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  transform: translateY(8px);
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+.page.active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.page::-webkit-scrollbar { width: 0; }
+
+/* ========================================
+   Hand-drawn Decorative Elements (SVG)
+   ======================================== */
+
+.hand-doodle {
+  position: absolute;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Hand-drawn star */
+.star-doodle {
+  position: absolute;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Hand-drawn cloud */
+.cloud-doodle {
+  position: absolute;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ========================================
+   Bottom Tab Navigation
+   ======================================== */
+
+.bottom-nav {
+  height: 84px;
+  background: #FFFDF9;
+  border-top: 2px solid var(--border-hand);
+  display: flex;
+  align-items: flex-start;
+  padding: 8px 4px 0;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 100;
+  border-radius: 20px 20px 0 0;
+}
+
+.nav-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  padding: 4px 2px;
+  transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1);
+  position: relative;
+  border: none;
+  background: none;
+  font-family: var(--font-main);
+  outline: none;
+}
+
+.nav-item .nav-icon {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+.nav-item .nav-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  transition: color 0.25s;
+  font-weight: 500;
+}
+
+.nav-item.active .nav-label {
+  color: var(--text);
+  font-weight: 700;
+}
+
+.nav-item.active .nav-icon {
+  transform: scale(1.15);
+}
+
+.nav-item::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: 50%;
+  transform: translateX(-50%) scaleX(0);
+  width: 32px;
+  height: 3px;
+  border-radius: 6px;
+  background: var(--text);
+  transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+.nav-item.active::after {
+  transform: translateX(-50%) scaleX(1);
+}
+
+/* Nav specific colors */
+.nav-item:nth-child(1).active .nav-icon { filter: drop-shadow(0 2px 4px rgba(255,71,87,0.3)); }
+.nav-item:nth-child(2).active .nav-icon { filter: drop-shadow(0 2px 4px rgba(74,144,255,0.3)); }
+.nav-item:nth-child(3).active .nav-icon { filter: drop-shadow(0 2px 4px rgba(94,220,124,0.3)); }
+.nav-item:nth-child(4).active .nav-icon { filter: drop-shadow(0 2px 4px rgba(255,140,66,0.3)); }
+.nav-item:nth-child(5).active .nav-icon { filter: drop-shadow(0 2px 4px rgba(167,139,250,0.3)); }
+
+/* ========================================
+   Hand-drawn Card Style
+   ======================================== */
+
+.card-hand {
+  background: #FFFDF9;
+  border: 2px solid var(--border-hand);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  position: relative;
+  box-shadow: 0 2px 8px var(--shadow);
+  transition: transform 0.2s ease;
+}
+
+.card-hand:hover {
+  transform: scale(1.02);
+}
+
+.card-hand.sticker {
+  transform: rotate(-0.5deg);
+  border-style: dashed;
+  border-color: #DDD8D0;
+}
+
+.card-hand.sticker:nth-child(even) {
+  transform: rotate(0.8deg);
+}
+
+/* ========================================
+   Typography
+   ======================================== */
+
+.hand-title {
+  font-family: var(--font-hand);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: 0.5px;
+}
+
+.hand-subtitle {
+  font-family: var(--font-hand);
+  font-size: 14px;
+  color: var(--text-light);
+  letter-spacing: 0.3px;
+}
+
+.text-doodle {
+  display: inline-block;
+  position: relative;
+}
+
+.text-doodle::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background: var(--yellow);
+  opacity: 0.4;
+  border-radius: 3px;
+  z-index: -1;
+}
+
+/* ========================================
+   Common Components
+   ======================================== */
+
+/* Search Bar */
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  background: #F8F5F0;
+  border: 1.5px solid var(--border-hand);
+  border-radius: 25px;
+  margin: 0 16px;
+  cursor: pointer;
+}
+
+.search-bar .search-icon {
+  width: 18px;
+  height: 18px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.search-bar input {
+  border: none;
+  background: none;
+  outline: none;
+  font-size: 14px;
+  color: var(--text);
+  width: 100%;
+  font-family: var(--font-main);
+}
+
+.search-bar input::placeholder {
+  color: var(--text-muted);
+}
+
+/* Section Header */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 20px 10px;
+}
+
+.section-header .title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-header .more {
+  font-size: 13px;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Chip / Tag */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  border: 1.5px solid var(--border-hand);
+  background: #FFFDF9;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+  font-weight: 500;
+  color: var(--text-light);
+}
+
+.chip.active {
+  background: var(--text);
+  color: white;
+  border-color: var(--text);
+}
+
+.chip:hover { transform: scale(1.05); }
+
+/* Button */
+.btn-primary {
+  background: var(--text);
+  color: white;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 25px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font-main);
+  transition: all 0.2s;
+}
+
+.btn-primary:hover { transform: scale(1.03); }
+
+/* ========================================
+   Afu Bubble
+   ======================================== */
+
+.afu-bubble {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  padding: 8px 16px;
+}
+
+.afu-bubble .afu-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #FFF8E7;
+  border: 2px solid var(--border-hand);
+  flex-shrink: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.afu-bubble .bubble-text {
+  background: #FFFDF9;
+  border: 2px solid var(--border-hand);
+  border-radius: 18px 18px 18px 6px;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: var(--text);
+  font-weight: 500;
+  max-width: 220px;
+  position: relative;
+  box-shadow: 0 2px 6px var(--shadow);
+}
+
+/* ========================================
+   Page 1: Home - 首页
+   ======================================== */
+
+/* Banner Poster */
+.banner-poster {
+  margin: 8px 16px 16px;
+  background: linear-gradient(135deg, #FFFDF7 0%, #FFF9EC 40%, #FFF5F5 100%);
+  border: 2.5px solid #E8E0D5;
+  border-radius: 24px;
+  padding: 20px 18px;
+  position: relative;
+  overflow: hidden;
+  min-height: 200px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+}
+
+.banner-poster .banner-bg-doodles {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.banner-poster .banner-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.banner-poster .banner-text {
+  flex: 1;
+}
+
+.banner-poster .banner-title {
+  font-family: var(--font-hand);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.4;
+  margin-bottom: 6px;
+}
+
+.banner-poster .banner-sub {
+  font-size: 13px;
+  color: var(--text-light);
+  margin-bottom: 12px;
+}
+
+.banner-poster .banner-tag {
+  display: inline-block;
+  padding: 4px 12px;
+  background: var(--yellow);
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #8B6914;
+  transform: rotate(-2deg);
+}
+
+.banner-poster .banner-afu {
+  width: 90px;
+  height: 90px;
+  flex-shrink: 0;
+}
+
+/* Function Grid */
+.func-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+  padding: 0 14px;
+  margin-bottom: 16px;
+}
+
+.func-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  padding: 8px 4px;
+  transition: transform 0.2s;
+}
+
+.func-item:hover { transform: translateY(-2px); }
+
+.func-item .func-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--border-hand);
+  background: #FFFDF9;
+}
+
+.func-item .func-label {
+  font-size: 11px;
+  color: var(--text-light);
+  text-align: center;
+}
+
+/* Waterfall */
+.waterfall {
+  columns: 2;
+  column-gap: 10px;
+  padding: 0 14px;
+  margin-bottom: 20px;
+}
+
+.waterfall-card {
+  break-inside: avoid;
+  margin-bottom: 10px;
+  background: #FFFDF9;
+  border: 1.5px solid var(--border-hand);
+  border-radius: 18px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.waterfall-card:hover { transform: scale(1.02); }
+
+.waterfall-card .card-img {
+  width: 100%;
+  aspect-ratio: auto;
+  background: #F5F0E8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 140px;
+  position: relative;
+}
+
+.waterfall-card .card-info {
+  padding: 10px 12px;
+}
+
+.waterfall-card .card-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.waterfall-card .card-meta {
+  font-size: 11px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ========================================
+   Page 2: 搭案空间 (Style Lab)
+   ======================================== */
+
+.tab-bar {
+  display: flex;
+  gap: 4px;
+  padding: 8px 16px;
+  border-bottom: 1.5px solid var(--border-hand);
+}
+
+.tab-item {
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s;
+  border: none;
+  background: none;
+  color: var(--text-muted);
+  font-family: var(--font-main);
+}
+
+.tab-item.active {
+  background: var(--text);
+  color: white;
+}
+
+/* Filter section */
+.filter-section {
+  padding: 12px 16px;
+}
+
+.filter-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.filter-row::-webkit-scrollbar { height: 0; }
+
+.filter-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Wooden hanger model */
+.hanger-display {
+  margin: 16px;
+  background: #FFFDF9;
+  border: 2px solid var(--border-hand);
+  border-radius: 24px;
+  padding: 24px;
+  text-align: center;
+  position: relative;
+  min-height: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.hanger-display .hanger-top {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.hanger-display .model-figure {
+  width: 120px;
+  height: 200px;
+  background: #F5F0E8;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed var(--border-hand);
+}
+
+.hanger-display .swipe-hint {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* AI Float Button */
+.ai-float-btn {
+  position: fixed;
+  bottom: 120px;
+  right: 20px;
+  width: 56px;
+  height: 56px;
+  background: #FFFDF9;
+  border: 2.5px solid var(--border-hand);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  z-index: 50;
+  transition: transform 0.2s;
+}
+
+.ai-float-btn:hover { transform: scale(1.1); }
+
+/* ========================================
+   Page 3: 搭搭桌面 (Community)
+   ======================================== */
+
+.community-header {
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.post-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: var(--text);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font-main);
+  white-space: nowrap;
+}
+
+.tag-scroll {
+  display: flex;
+  gap: 8px;
+  padding: 8px 16px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.tag-scroll::-webkit-scrollbar { height: 0; }
+
+/* ========================================
+   Page 4: 逛福窗口 (Explore)
+   ======================================== */
+
+.map-card {
+  margin: 12px 16px;
+  background: #FFFDF9;
+  border: 2px solid var(--border-hand);
+  border-radius: 20px;
+  padding: 16px;
+  position: relative;
+}
+
+.map-card .store-item {
+  display: flex;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1.5px dashed var(--border-hand);
+  align-items: center;
+}
+
+.map-card .store-item:last-child { border-bottom: none; }
+
+.store-thumb {
+  width: 60px;
+  height: 60px;
+  border-radius: 14px;
+  background: #F5F0E8;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid var(--border-hand);
+}
+
+/* ========================================
+   Page 5: 我的福盒 (Profile)
+   ======================================== */
+
+.profile-header {
+  padding: 16px;
+  text-align: center;
+}
+
+.profile-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 3px solid var(--border-hand);
+  margin: 0 auto 12px;
+  background: #FFF8E7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.membership-card {
+  margin: 12px 16px;
+  background: linear-gradient(135deg, #FFFDF7, #FFF9EC);
+  border: 2px solid #E8DCC8;
+  border-radius: 20px;
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.menu-list {
+  margin: 8px 16px;
+}
+
+.menu-group {
+  margin-bottom: 4px;
+}
+
+.menu-group-title {
+  font-size: 12px;
+  color: var(--text-muted);
+  padding: 12px 8px 6px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.menu-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 12px;
+  cursor: pointer;
+  border-radius: 14px;
+  transition: background 0.15s;
+}
+
+.menu-item:hover { background: #F8F5F0; }
+
+.menu-item .menu-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.menu-item .menu-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu-item .menu-label { font-size: 14px; color: var(--text); font-weight: 500; }
+.menu-item .menu-badge { font-size: 11px; color: var(--red); background: #FFF0F0; padding: 2px 8px; border-radius: 10px; }
+.menu-item .menu-arrow { color: var(--text-muted); font-size: 14px; }
+
+/* ========================================
+   Modals & Overlays
+   ======================================== */
+
+.modal-overlay {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.3);
+  z-index: 200;
+  display: flex;
+  align-items: flex-end;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+
+.modal-overlay.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-sheet {
+  width: 100%;
+  max-height: 70%;
+  background: #FFFDF9;
+  border-radius: 24px 24px 0 0;
+  padding: 20px;
+  overflow-y: auto;
+  border-top: 2px solid var(--border-hand);
+  transform: translateY(100%);
+  transition: transform 0.35s cubic-bezier(0.32,0.72,0,1);
+}
+
+.modal-overlay.show .modal-sheet {
+  transform: translateY(0);
+}
+
+.modal-handle {
+  width: 40px;
+  height: 5px;
+  background: #DDD8D0;
+  border-radius: 6px;
+  margin: 0 auto 16px;
+}
+
+/* ========================================
+   Loading Screen
+   ======================================== */
+
+.loading-screen {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: var(--bg);
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity 0.5s;
+}
+
+.loading-screen.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.loading-afu {
+  animation: afuRun 1s ease-in-out infinite;
+}
+
+@keyframes afuRun {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-6px) rotate(-2deg); }
+  75% { transform: translateY(-6px) rotate(2deg); }
+}
+
+@keyframes floatStar {
+  0%, 100% { transform: translateY(0) scale(1); opacity: 0.6; }
+  50% { transform: translateY(-10px) scale(1.2); opacity: 1; }
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-1.5deg); }
+  75% { transform: rotate(1.5deg); }
+}
+
+@keyframes popIn {
+  0% { transform: scale(0.8); opacity: 0; }
+  70% { transform: scale(1.05); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.animate-pop { animation: popIn 0.4s cubic-bezier(0.34,1.56,0.64,1); }
+
+/* ========================================
+   Spacing Utilities
+   ======================================== */
+
+.mt-8 { margin-top: 8px; }
+.mt-12 { margin-top: 12px; }
+.mt-16 { margin-top: 16px; }
+.mb-8 { margin-bottom: 8px; }
+.mb-16 { margin-bottom: 16px; }
+.px-16 { padding-left: 16px; padding-right: 16px; }
+
+/* ========================================
+   Hand-drawn border variations
+   ======================================== */
+
+.border-doodle-1 {
+  border: 2px solid var(--border-hand);
+  border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+}
+
+.border-doodle-2 {
+  border: 2px dashed var(--border-hand);
+  border-radius: 20px 8px 20px 8px;
+}
+
+/* ========================================
+   Empty State
+   ======================================== */
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  text-align: center;
+}
+
+.empty-state .empty-afu {
+  width: 100px;
+  height: 100px;
+  margin-bottom: 16px;
+}
+
+.empty-state .empty-text {
+  font-size: 15px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* ========================================
+   Sub-page: Virtual Avatar
+   ======================================== */
+
+.form-card {
+  margin: 12px 16px;
+  background: #FFFDF9;
+  border: 2px solid var(--border-hand);
+  border-radius: 20px;
+  padding: 20px;
+}
+
+.form-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px dashed #EEEAE2;
+}
+
+.form-row:last-child { border-bottom: none; }
+
+.form-label { font-size: 14px; color: var(--text); font-weight: 500; }
+.form-value { font-size: 14px; color: var(--text-muted); }
+
+.upload-zone {
+  width: 100%;
+  height: 120px;
+  border: 2px dashed var(--border-hand);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 8px;
+  cursor: pointer;
+  background: #FFFCF7;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+/* Avatar switch row */
+.avatar-switch-row {
+  display: flex;
+  gap: 12px;
+  padding: 12px 16px;
+  overflow-x: auto;
+}
+
+.avatar-switch-row::-webkit-scrollbar { height: 0; }
+
+.avatar-switch-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.avatar-switch-item .switch-circle {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 2px solid var(--border-hand);
+  background: #FFF8E7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.avatar-switch-item.active .switch-circle {
+  border-color: var(--text);
+  border-width: 3px;
+  box-shadow: 0 0 0 3px rgba(0,0,0,0.05);
+}
+
+.avatar-switch-item .switch-label {
+  font-size: 11px;
+  color: var(--text-light);
+}
+
+/* Multiple hanger display */
+.multi-hanger {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  padding: 20px;
+}
+
+.multi-hanger .hanger-slot {
+  width: 80px;
+  height: 160px;
+  background: #F5F0E8;
+  border-radius: 12px;
+  border: 2px dashed var(--border-hand);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* ========================================
+   Post Detail (手账风)
+   ======================================== */
+
+.journal-post {
+  padding: 16px;
+  background: #FFFDF9;
+  border: 1.5px solid var(--border-hand);
+  border-radius: 16px;
+  margin: 12px 16px;
+}
+
+.journal-post .journal-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.journal-post .journal-img {
+  width: 100%;
+  aspect-ratio: 1;
+  background: #F5F0E8;
+  border-radius: 12px;
+  margin: 12px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid var(--border-hand);
+}
+
+.journal-post .sticker-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 10px 0;
+}
+
+.sticker-tag {
+  padding: 4px 10px;
+  border: 1.5px solid var(--border-hand);
+  border-radius: 12px;
+  font-size: 11px;
+  color: var(--text-light);
+  background: #FFFCF7;
+  transform: rotate(-1deg);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Comment sticky note */
+.comment-sticky {
+  background: #FFFDE8;
+  border: 1.5px solid #E8E0C0;
+  border-radius: 2px 14px 14px 14px;
+  padding: 10px 14px;
+  margin: 8px 0;
+  font-size: 13px;
+  position: relative;
+  transform: rotate(-0.5deg);
+}
+
+.comment-sticky:nth-child(even) {
+  background: #FFF0F8;
+  border-color: #F0D8E8;
+  transform: rotate(1deg);
+  border-radius: 14px 2px 14px 14px;
+}
+
+/* ========================================
+   City Map Stickers
+   ======================================== */
+
+.map-sticker-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  padding: 12px 16px;
+}
+
+.map-sticker {
+  background: #FFFDF9;
+  border: 2px solid var(--border-hand);
+  border-radius: 18px;
+  padding: 14px;
+  cursor: pointer;
+  transition: transform 0.2s;
+  transform: rotate(-0.5deg);
+}
+
+.map-sticker:nth-child(even) { transform: rotate(0.8deg); }
+.map-sticker:hover { transform: scale(1.03) rotate(0deg); }
+
+.map-sticker .sticker-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ========================================
+   Loading Doodles
+   ======================================== */
+
+.loading-doodles {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.doodle-float {
+  position: absolute;
+  animation: floatStar 2s ease-in-out infinite;
+}
+
+/* ========================================
+   Check-in /打卡 Map
+   ======================================== */
+
+.checkin-dots {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding: 8px 0;
+}
+
+.checkin-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--green);
+  border: 2px solid white;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.checkin-dot.empty {
+  background: #EEE;
+  border-color: #DDD;
+}
+
+/* Creator center badge */
+.badge-new {
+  background: #FFF0F0;
+  color: var(--red);
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+/* ========================================
+   Responsive / Fine-tune
+   ======================================== */
+
+@media (max-width: 450px) {
+  .phone-outer {
+    width: 100vw;
+    height: 100vh;
+    border-radius: 0;
+    box-shadow: none;
+    background: #1A1A1D;
+  }
+  .phone-outer::after { display: none; }
+  .phone-btn-right,
+  .phone-btn-vol-up,
+  .phone-btn-vol-down,
+  .phone-btn-action { display: none; }
+  .phone-bezel-inner {
+    inset: 0;
+    border-radius: 0;
+  }
+  .phone-screen { border-radius: 0; }
+  .dynamic-island { display: none; }
+}
+
+/* Hand-drawn underline */
+.underline-doodle {
+  display: inline;
+  background: url("data:image/svg+xml,%3Csvg width='100' height='8' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2,6 Q25,0 50,5 Q75,10 98,3' stroke='%23FFD93D' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x bottom;
+  background-size: 60px 6px;
+  padding-bottom: 4px;
+}
+
+/* Custom radio as sticker */
+.radio-sticker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.radio-sticker input { display: none; }
+
+.radio-sticker label {
+  padding: 8px 16px;
+  border: 2px solid var(--border-hand);
+  border-radius: 20px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: #FFFDF9;
+}
+
+.radio-sticker input:checked + label {
+  background: var(--text);
+  color: white;
+  border-color: var(--text);
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================
+     iPhone 16 Pro — Exact Dimensions
+     Outer: 432×906px, Screen: 402×874pt
+     Bezel: 1.44mm, Titanium Grade 5 frame
+     Dynamic Island: 126×37pt (44pt radius)
+     ============================================ -->
+<div class="phone-outer">
+
+  <!-- Side buttons (titanium) -->
+  <div class="phone-btn-action"></div>
+  <div class="phone-btn-vol-up"></div>
+  <div class="phone-btn-vol-down"></div>
+  <div class="phone-btn-right"></div>
+
+  <!-- 1.44mm inner black bezel -->
+  <div class="phone-bezel-inner"></div>
+
+  <!-- Display (402×874pt) -->
+  <div class="phone-screen">
+
+    <!-- Dynamic Island pill cutout -->
+    <div class="dynamic-island"></div>
+
+    <!-- iOS 18 Status Bar (59pt, flanking Dynamic Island) -->
+    <div class="status-bar">
+      <span class="time">9:41</span>
+      <span class="spacer"></span>
+      <span class="status-icons">
+        <!-- SF-style Signal Bars -->
+        <span class="signal-bars">
+          <span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span>
+        </span>
+        <!-- SF-style WiFi -->
+        <span class="wifi-icon-sf">
+          <svg viewBox="0 0 16 12" fill="currentColor">
+            <path d="M8 10.2c.6 0 1.1.5 1.1 1.1 0 .6-.5 1-1.1 1-.6 0-1-.5-1-1s.5-1.1 1-1.1z" fill-rule="evenodd"/>
+            <path d="M5.8 8c1.1-1.2 3.2-1.2 4.4 0 .3.4.3.9-.1 1.2-.4.2-.8.2-1.1-.1a1.3 1.3 0 0 0-2 0c-.3.3-.7.3-1.1.1-.4-.3-.5-.8-.1-1.2z" fill-rule="evenodd"/>
+            <path d="M3.5 5.7c2.3-2.6 6.7-2.6 9 0 .3.4.3.9-.1 1.2-.4.3-.8.2-1.1-.1a4.5 4.5 0 0 0-6.6 0c-.3.3-.7.4-1.1.1-.4-.3-.5-.8-.1-1.2z" fill-rule="evenodd"/>
+            <path d="M1.3 3.5c3.5-3.9 9.9-3.9 13.4 0 .3.4.3.9-.1 1.2-.4.3-.8.2-1.1-.1a7.7 7.7 0 0 0-11 0c-.3.3-.7.4-1.1.1-.4-.3-.5-.8-.1-1.2z" fill-rule="evenodd"/>
+          </svg>
+        </span>
+        <!-- SF-style Battery with percentage -->
+        <span class="battery-sf">
+          <svg viewBox="0 0 28 13" width="28" height="13">
+            <rect x="0" y="0" width="25" height="13" rx="3" fill="none" stroke="#000" stroke-width="1.2"/>
+            <rect x="2" y="2" width="19" height="9" rx="1.5" fill="#000"/>
+            <rect x="25.5" y="3.5" width="2.5" height="6" rx="1.3" fill="#000" opacity="0.4"/>
+          </svg>
+          <span class="battery-pct">78%</span>
+        </span>
+      </span>
+    </div>
+
+    <!-- ============================================
+         App Container
+         ============================================ -->
+    <div class="app-container" id="appContainer">
+
+      <!-- Loading Screen -->
+      <div class="loading-screen" id="loadingScreen">
+        <div class="loading-afu">
+          <svg width="100" height="100" viewBox="0 0 200 200">
+            <!-- Afu body -->
+            <ellipse cx="100" cy="130" rx="45" ry="40" fill="#FFF3E0" stroke="#2D2D2D" stroke-width="3"/>
+            <!-- Afu head -->
+            <circle cx="100" cy="85" r="40" fill="#FFF3E0" stroke="#2D2D2D" stroke-width="3"/>
+            <!-- Ears -->
+            <ellipse cx="70" cy="55" rx="18" ry="25" fill="#FFF3E0" stroke="#2D2D2D" stroke-width="3" transform="rotate(-15,70,55)"/>
+            <ellipse cx="130" cy="55" rx="18" ry="25" fill="#FFF3E0" stroke="#2D2D2D" stroke-width="3" transform="rotate(15,130,55)"/>
+            <!-- Inner ears -->
+            <ellipse cx="70" cy="55" rx="10" ry="15" fill="#FFD4C2" transform="rotate(-15,70,55)"/>
+            <ellipse cx="130" cy="55" rx="10" ry="15" fill="#FFD4C2" transform="rotate(15,130,55)"/>
+            <!-- Eyes -->
+            <circle cx="85" cy="80" r="6" fill="#2D2D2D"/>
+            <circle cx="115" cy="80" r="6" fill="#2D2D2D"/>
+            <circle cx="87" cy="78" r="2" fill="white"/>
+            <circle cx="117" cy="78" r="2" fill="white"/>
+            <!-- Nose -->
+            <ellipse cx="100" cy="92" rx="7" ry="5" fill="#2D2D2D"/>
+            <!-- Mouth -->
+            <path d="M94,97 Q100,104 106,97" stroke="#2D2D2D" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <!-- Tongue -->
+            <ellipse cx="100" cy="101" rx="5" ry="6" fill="#FF6B8A"/>
+            <!-- Hat -->
+            <rect x="80" y="42" width="40" height="8" rx="4" fill="#FFD93D" stroke="#2D2D2D" stroke-width="2.5"/>
+            <rect x="86" y="20" width="28" height="24" rx="8" fill="#FFD93D" stroke="#2D2D2D" stroke-width="2.5"/>
+            <!-- Shoes -->
+            <ellipse cx="80" cy="168" rx="18" ry="8" fill="#4A90FF" stroke="#2D2D2D" stroke-width="2.5"/>
+            <ellipse cx="120" cy="168" rx="18" ry="8" fill="#FF4757" stroke="#2D2D2D" stroke-width="2.5"/>
+            <!-- Spots -->
+            <circle cx="75" cy="115" r="8" fill="#F5D5A0" opacity="0.5"/>
+            <circle cx="125" cy="120" r="6" fill="#F5D5A0" opacity="0.5"/>
+          </svg>
+        </div>
+        <p style="font-family:var(--font-hand);font-size:15px;color:var(--text-light);margin-top:12px;">
+          🐶 阿福正在赶来...
+        </p>
+        <!-- Floating doodles -->
+        <svg style="position:absolute;top:20%;left:15%;" width="20" height="20" class="doodle-float" style="animation-delay:0s"><text font-size="18">⭐</text></svg>
+        <svg style="position:absolute;top:30%;right:20%;" width="24" height="24" class="doodle-float" style="animation-delay:0.6s"><text font-size="22">☁️</text></svg>
+        <svg style="position:absolute;bottom:35%;left:25%;" width="18" height="18" class="doodle-float" style="animation-delay:0.3s"><text font-size="16">💖</text></svg>
+        <svg style="position:absolute;top:25%;right:25%;" width="22" height="22" class="doodle-float" style="animation-delay:0.9s"><text font-size="20">👒</text></svg>
+        <svg style="position:absolute;bottom:30%;right:15%;" width="20" height="20" class="doodle-float" style="animation-delay:1.2s"><text font-size="18">👟</text></svg>
+      </div>
+
+      <!-- ============================================
+           PAGE 1: 首页 (Home)
+           ============================================ -->
+      <div class="page active" id="page-home">
+        <!-- Logo + Search -->
+        <div style="padding:8px 16px;display:flex;align-items:center;gap:10px;">
+          <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;">
+            <svg width="32" height="32" viewBox="0 0 60 60">
+              <circle cx="30" cy="30" r="27" fill="#FFF3E0" stroke="#2D2D2D" stroke-width="2.5"/>
+              <circle cx="24" cy="27" r="5" fill="#2D2D2D"/>
+              <circle cx="36" cy="27" r="5" fill="#2D2D2D"/>
+              <circle cx="26" cy="25" r="1.5" fill="white"/>
+              <circle cx="38" cy="25" r="1.5" fill="white"/>
+              <ellipse cx="30" cy="35" rx="5" ry="3.5" fill="#2D2D2D"/>
+              <text x="30" y="50" text-anchor="middle" font-size="10" fill="#2D2D2D" font-weight="700">搭搭</text>
+            </svg>
+            <span style="font-family:var(--font-hand);font-size:18px;font-weight:700;color:var(--text);">搭搭星球</span>
+          </div>
+          <div class="search-bar" style="flex:1;margin:0;" onclick="showSearch()">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            <span style="font-size:13px;color:var(--text-muted);">搜索穿搭、活动、门店...</span>
+          </div>
+        </div>
+
+        <!-- Afu Greeting Bubble -->
+        <div class="afu-bubble">
+          <div class="afu-avatar">
+            <svg width="38" height="38" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="45" fill="#FFF3E0" stroke="#2D2D2D" stroke-width="2.5"/>
+              <circle cx="38" cy="44" r="6" fill="#2D2D2D"/>
+              <circle cx="62" cy="44" r="6" fill="#2D2D2D"/>
+              <circle cx="40" cy="42" r="2" fill="white"/>
+              <circle cx="64" cy="42" r="2" fill="white"/>
+              <ellipse cx="50" cy="56" rx="6" ry="4.5" fill="#2D2D2D"/>
+              <path d="M44,62 Q50,70 56,62" stroke="#2D2D2D" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+              <rect x="38" y="18" width="24" height="6" rx="3" fill="#FFD93D" stroke="#2D2D2D" stroke-width="2"/>
+              <rect x="40" y="8" width="20" height="14" rx="6" fill="#FFD93D" stroke="#2D2D2D" stroke-width="2"/>
+            </svg>
+          </div>
+          <div class="bubble-text">
+            嗨～欢迎来到搭搭星球！<br/>今天的搭配灵感，由阿福来帮你找 🐶✨
+          </div>
+        </div>
+
+        <!-- Banner Poster -->
+        <div class="banner-poster">
+          <svg class="banner-bg-doodles" viewBox="0 0 360 200">
+            <!-- Decorative elements -->
+            <circle cx="30" cy="30" r="4" fill="#FFD93D" opacity="0.6"/>
+            <circle cx="330" cy="20" r="3" fill="#FF6B8A" opacity="0.5"/>
+            <circle cx="300" cy="170" r="5" fill="#4A90FF" opacity="0.3"/>
+            <circle cx="50" cy="160" r="3" fill="#5EDC7C" opacity="0.4"/>
+            <!-- Cloud -->
+            <g opacity="0.4">
+              <ellipse cx="280" cy="50" rx="25" ry="12" fill="#E8E4DF"/>
+              <ellipse cx="265" cy="48" rx="15" ry="10" fill="#E8E4DF"/>
+              <ellipse cx="295" cy="48" rx="15" ry="10" fill="#E8E4DF"/>
+            </g>
+            <!-- Stars -->
+            <text x="40" y="80" font-size="16">✦</text>
+            <text x="310" y="100" font-size="12">✧</text>
+            <text x="60" y="130" font-size="10">★</text>
+            <!-- Wavy line -->
+            <path d="M20,180 Q50,170 80,180 Q110,190 140,180 Q170,170 200,180 Q230,190 260,180 Q290,170 320,180" stroke="#FFD93D" stroke-width="2" fill="none" opacity="0.5"/>
+          </svg>
+          <div class="banner-content">
+            <div class="banner-text">
+              <div class="banner-title">今天的搭配<br/><span class="underline-doodle">由阿福来找灵感!</span></div>
+              <div class="banner-sub">🐶 和我一起出发去搭配吧～</div>
+              <div class="banner-tag"># 欢迎来到搭搭星球</div>
+            </div>
+            <div class="banner-afu">
+              <svg width="90" height="90" viewBox="0 0 180 180">
+                <ellipse cx="90" cy="120" rx="42" ry="38" fill="#FFF3E0" stroke="#2D2D2D" stroke-width="2.5"/>
+                <circle cx="90" cy="78" r="38" fill="#FFF3E0" stroke="#2D2D2D" stroke-width="2.5"/>
+                <ellipse cx="58" cy="48" rx="16" ry="22" fill="#FFF3E0" stroke="#2D2D2D" stroke-width="2.5" transform="rotate(-12,58,48)"/>
+                <ellipse cx="122" cy="48" rx="16" ry="22" fill="#FFF3E0" stroke="#2D2D2D" stroke-width="2.5" transform="rotate(12,122,48)"/>
+                <ellipse cx="58" cy="48" rx="9" ry="14" fill="#FFD4C2" transform="rotate(-12,58,48)"/>
+                <ellipse cx="122" cy="48" rx="9" ry="14" fill="#FFD4C2" transform="rotate(12,122,48)"/>
+                <circle cx="74" cy="72" r="6" fill="#2D2D2D"/>
+                <circle cx="106" cy="72" r="6" fill="#2D2D2D"/>
+                <circle cx="76" cy="70" r="2" fill="white"/>
+                <circle cx="108" cy="70" r="2" fill="white"/>
+                <ellipse cx="90" cy="86" rx="7" ry="5" fill="#2D2D2D"/>
+                <path d="M84,92 Q90,100 96,92" stroke="#2D2D2D" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                <ellipse cx="90" cy="97" rx="5" ry="5" fill="#FF6B8A"/>
+                <rect x="70" y="35" width="40" height="8" rx="4" fill="#FF4757" stroke="#2D2D2D" stroke-width="2"/>
+                <rect x="76" y="14" width="28" height="22" rx="8" fill="#FF4757" stroke="#2D2D2D" stroke-width="2"/>
+                <ellipse cx="68" cy="156" rx="16" ry="7" fill="#4A90FF" stroke="#2D2D2D" stroke-width="2"/>
+                <ellipse cx="112" cy="156" rx="16" ry="7" fill="#FFD93D" stroke="#2D2D2D" stroke-width="2"/>
+                <circle cx="72" cy="108" r="7" fill="#F5D5A0" opacity="0.4"/>
+                <circle cx="115" cy="112" r="5" fill="#F5D5A0" opacity="0.4"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Function Grid -->
+        <div class="func-grid">
+          <div class="func-item" onclick="switchTab(1)">
+            <div class="func-icon" style="background:#FFF5F5;">
+              <svg width="26" height="26" viewBox="0 0 50 50"><rect x="10" y="8" width="30" height="34" rx="4" fill="none" stroke="#FF4757" stroke-width="2.5"/><line x1="18" y1="18" x2="32" y2="18" stroke="#FF4757" stroke-width="2" stroke-linecap="round"/><line x1="18" y1="24" x2="32" y2="24" stroke="#FF4757" stroke-width="2" stroke-linecap="round"/><line x1="18" y1="30" x2="26" y2="30" stroke="#FF4757" stroke-width="2" stroke-linecap="round"/></svg>
+            </div>
+            <span class="func-label">搭案空间</span>
+          </div>
+          <div class="func-item" onclick="switchTab(1)">
+            <div class="func-icon" style="background:#FFF8F0;">
+              <svg width="26" height="26" viewBox="0 0 50 50"><circle cx="25" cy="20" r="10" fill="none" stroke="#FF8C42" stroke-width="2.5"/><path d="M15,42 Q25,30 35,42" fill="none" stroke="#FF8C42" stroke-width="2.5" stroke-linecap="round"/><circle cx="20" cy="18" r="2" fill="#FF8C42"/><circle cx="30" cy="18" r="2" fill="#FF8C42"/><path d="M22,24 Q25,28 28,24" fill="none" stroke="#FF8C42" stroke-width="2" stroke-linecap="round"/></svg>
+            </div>
+            <span class="func-label">mood搭配</span>
+          </div>
+          <div class="func-item">
+            <div class="func-icon" style="background:#FFF8FF;">
+              <svg width="26" height="26" viewBox="0 0 50 50"><ellipse cx="25" cy="28" rx="14" ry="16" fill="none" stroke="#A78BFA" stroke-width="2.5"/><circle cx="25" cy="15" r="10" fill="none" stroke="#A78BFA" stroke-width="2.5"/><ellipse cx="18" cy="12" rx="3" ry="5" fill="#A78BFA" opacity="0.3"/><ellipse cx="32" cy="12" rx="3" ry="5" fill="#A78BFA" opacity="0.3"/><circle cx="21" cy="14" r="2" fill="#2D2D2D"/><circle cx="29" cy="14" r="2" fill="#2D2D2D"/></svg>
+            </div>
+            <span class="func-label">宠物搭</span>
+          </div>
+          <div class="func-item" onclick="switchTab(3)">
+            <div class="func-icon" style="background:#F5FFF5;">
+              <svg width="26" height="26" viewBox="0 0 50 50"><rect x="8" y="10" width="24" height="30" rx="6" fill="none" stroke="#5EDC7C" stroke-width="2.5"/><rect x="14" y="16" width="12" height="10" rx="2" fill="#5EDC7C" opacity="0.2"/><line x1="20" y1="30" x2="20" y2="38" stroke="#5EDC7C" stroke-width="2" stroke-linecap="round"/><circle cx="20" cy="40" r="2" fill="#5EDC7C"/></svg>
+            </div>
+            <span class="func-label">城市逛街</span>
+          </div>
+          <div class="func-item">
+            <div class="func-icon" style="background:#FFFBF0;">
+              <svg width="26" height="26" viewBox="0 0 50 50"><circle cx="25" cy="15" r="8" fill="none" stroke="#FFD93D" stroke-width="2.5"/><path d="M10,38 L25,18 L40,38" fill="none" stroke="#FFD93D" stroke-width="2.5" stroke-linecap="round"/><circle cx="25" cy="15" r="3" fill="#FFD93D" opacity="0.5"/></svg>
+            </div>
+            <span class="func-label">今日活动</span>
+          </div>
+        </div>
+
+        <!-- Section: Today's Mood -->
+        <div class="section-header">
+          <div class="title">✨ 今日mood穿搭</div>
+          <div class="more">更多 →</div>
+        </div>
+        <div style="display:flex;gap:10px;padding:0 16px;overflow-x:auto;">
+          <div class="card-hand sticker" style="min-width:140px;text-align:center;">
+            <div style="font-size:36px;margin-bottom:6px;">☀️</div>
+            <div style="font-size:14px;font-weight:600;">晴天活力</div>
+            <div style="font-size:11px;color:var(--text-muted);">多巴胺穿搭</div>
+          </div>
+          <div class="card-hand sticker" style="min-width:140px;text-align:center;">
+            <div style="font-size:36px;margin-bottom:6px;">🌧️</div>
+            <div style="font-size:14px;font-weight:600;">雨天慵懒</div>
+            <div style="font-size:11px;color:var(--text-muted);">氛围感穿搭</div>
+          </div>
+          <div class="card-hand sticker" style="min-width:140px;text-align:center;">
+            <div style="font-size:36px;margin-bottom:6px;">🎵</div>
+            <div style="font-size:14px;font-weight:600;">演唱会</div>
+            <div style="font-size:11px;color:var(--text-muted);">Y2K辣妹风</div>
+          </div>
+        </div>
+
+        <!-- Section: Afu Recommends -->
+        <div class="section-header">
+          <div class="title">🐶 阿福陪你搭</div>
+          <div class="more">换一换 ↻</div>
+        </div>
+        <div style="padding:0 16px;">
+          <div class="card-hand" style="display:flex;align-items:center;gap:14px;">
+            <div style="width:80px;height:100px;background:#F5F0E8;border-radius:14px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border:1.5px solid var(--border-hand);">
+              <span style="font-size:40px;">👗</span>
+            </div>
+            <div style="flex:1;">
+              <div style="font-size:14px;font-weight:600;margin-bottom:4px;">阿福推荐：今日约会穿搭</div>
+              <div style="font-size:12px;color:var(--text-muted);margin-bottom:6px;">碎花裙 + 小白鞋 + 帆布包<br/>清新自然，适合下午茶～</div>
+              <div style="display:flex;gap:6px;">
+                <span class="sticker-tag"># cleanfit</span>
+                <span class="sticker-tag"># 约会</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section: Hot Activities -->
+        <div class="section-header">
+          <div class="title">🔥 热门活动</div>
+          <div class="more">全部 →</div>
+        </div>
+        <div style="display:flex;gap:10px;padding:0 16px;overflow-x:auto;">
+          <div class="card-hand" style="min-width:200px;">
+            <div style="width:100%;height:90px;background:linear-gradient(135deg,#FFE8E0,#FFF0E8);border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;font-size:40px;">🎪</div>
+            <div style="font-size:13px;font-weight:600;">三福夏日穿搭节</div>
+            <div style="font-size:11px;color:var(--text-muted);">6.1 - 6.15</div>
+          </div>
+          <div class="card-hand" style="min-width:200px;">
+            <div style="width:100%;height:90px;background:linear-gradient(135deg,#E8F0FF,#F0E8FF);border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;font-size:40px;">👯</div>
+            <div style="font-size:13px;font-weight:600;">闺蜜穿搭挑战赛</div>
+            <div style="font-size:11px;color:var(--text-muted);">进行中</div>
+          </div>
+        </div>
+
+        <!-- Waterfall Content -->
+        <div class="section-header">
+          <div class="title">📸 探索更多灵感</div>
+        </div>
+        <div class="waterfall" id="homeWaterfall">
+          <div class="waterfall-card" onclick="showPostDetail()">
+            <div class="card-img" style="height:180px;">
+              <span style="font-size:48px;">🌸</span>
+            </div>
+            <div class="card-info">
+              <div class="card-title">今日OOTD：樱花季约会穿搭</div>
+              <div class="card-meta">👤 小樱花 · ❤️ 2.3k</div>
+            </div>
+          </div>
+          <div class="waterfall-card">
+            <div class="card-img" style="height:140px;">
+              <span style="font-size:40px;">🐱</span>
+            </div>
+            <div class="card-info">
+              <div class="card-title">猫系女孩的慵懒穿搭指南</div>
+              <div class="card-meta">👤 猫咪酱 · ❤️ 1.8k</div>
+            </div>
+          </div>
+          <div class="waterfall-card">
+            <div class="card-img" style="height:160px;">
+              <span style="font-size:44px;">🏙️</span>
+            </div>
+            <div class="card-info">
+              <div class="card-title">Citywalk通勤穿搭合集</div>
+              <div class="card-meta">👤 城市漫步者 · ❤️ 5.6k</div>
+            </div>
+          </div>
+          <div class="waterfall-card">
+            <div class="card-img" style="height:200px;">
+              <span style="font-size:52px;">🎨</span>
+            </div>
+            <div class="card-info">
+              <div class="card-title">多巴胺穿搭一周不重样</div>
+              <div class="card-meta">👤 色彩玩家 · ❤️ 9.1k</div>
+            </div>
+          </div>
+          <div class="waterfall-card">
+            <div class="card-img" style="height:150px;">
+              <span style="font-size:42px;">🐶</span>
+            </div>
+            <div class="card-info">
+              <div class="card-title">宠物搭：和狗狗的情侣装</div>
+              <div class="card-meta">👤 阿福的朋友 · ❤️ 3.2k</div>
+            </div>
+          </div>
+        </div>
+        <div style="height:20px;"></div>
+      </div>
+
+      <!-- ============================================
+           PAGE 2: 搭案空间 (Style Lab)
+           ============================================ -->
+      <div class="page" id="page-stylelab">
+        <!-- Header -->
+        <div style="padding:12px 16px;display:flex;align-items:center;gap:10px;">
+          <span class="hand-title">搭案空间</span>
+          <span style="font-size:12px;color:var(--text-muted);">穿搭灵感工作室</span>
+        </div>
+
+        <!-- Top Tabs -->
+        <div class="tab-bar">
+          <button class="tab-item active" onclick="switchStyleTab('filter',this)">🔍 筛选搭</button>
+          <button class="tab-item" onclick="switchStyleTab('wardrobe',this)">📦 搭案库</button>
+        </div>
+
+        <!-- Filter Page Content -->
+        <div id="stylelab-filter">
+          <!-- Filter: Scene -->
+          <div class="filter-section">
+            <div class="filter-label">📍 场景</div>
+            <div class="filter-row">
+              <span class="chip active">全部</span><span class="chip">上课</span><span class="chip">通勤</span><span class="chip">约会</span><span class="chip">citywalk</span><span class="chip">演唱会</span><span class="chip">居家</span>
+            </div>
+          </div>
+
+          <!-- Filter: Style -->
+          <div class="filter-section">
+            <div class="filter-label">🎨 风格</div>
+            <div class="filter-row">
+              <span class="chip active">全部</span><span class="chip">clean fit</span><span class="chip">美式复古</span><span class="chip">Y2K</span><span class="chip">多巴胺</span><span class="chip">氛围感</span><span class="chip">千禧辣妹</span>
+            </div>
+          </div>
+
+          <!-- Filter: Mood -->
+          <div class="filter-section">
+            <div class="filter-label">💭 mood</div>
+            <div class="filter-row">
+              <span class="chip active">全部</span><span class="chip">😊 开心</span><span class="chip">😴 慵懒</span><span class="chip">😢 emo</span><span class="chip">🙈 社恐</span><span class="chip">🍬 甜妹</span><span class="chip">😎 酷girl</span>
+            </div>
+          </div>
+
+          <!-- Filter: Weather -->
+          <div class="filter-section">
+            <div class="filter-label">🌤️ 天气</div>
+            <div class="filter-row">
+              <span class="chip active">全部</span><span class="chip">☀️ 晴天</span><span class="chip">☁️ 阴天</span><span class="chip">🌧️ 雨天</span><span class="chip">⛅ 多云</span>
+            </div>
+          </div>
+
+          <!-- Filter: Pet Style -->
+          <div class="filter-section">
+            <div class="filter-label">🐾 宠物搭</div>
+            <div class="filter-row">
+              <span class="chip active">全部</span><span class="chip">🐱 猫系</span><span class="chip">🐶 狗系</span><span class="chip">🐹 仓鼠系</span><span class="chip">🦎 异宠系</span>
+            </div>
+          </div>
+
+          <!-- Hanger Display Area -->
+          <div class="hanger-display" id="hangerDisplay">
+            <svg width="60" height="30" viewBox="0 0 120 60" style="position:absolute;top:10px;left:50%;transform:translateX(-50%);">
+              <path d="M20,55 Q60,20 100,55" stroke="#8B7355" stroke-width="4" fill="none" stroke-linecap="round"/>
+              <circle cx="60" cy="10" r="5" fill="#8B7355"/>
+              <line x1="60" y1="15" x2="60" y2="28" stroke="#8B7355" stroke-width="3"/>
+            </svg>
+            <div class="model-figure" style="position:relative;">
+              <span style="font-size:50px;">🧍‍♀️</span>
+            </div>
+            <div style="font-size:15px;font-weight:600;margin-top:12px;color:var(--text);">干净约会装</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:4px;">白衬衫 · 牛仔裤 · 玛丽珍</div>
+            <div class="swipe-hint">
+              <span>←</span> 左右滑动切换穿搭 <span>→</span>
+            </div>
+            <!-- Fine filter dots -->
+            <div style="display:flex;gap:16px;margin-top:12px;">
+              <span class="chip" onclick="showFineFilter('top')">👚 上装</span>
+              <span class="chip" onclick="showFineFilter('bottom')">👖 下装</span>
+              <span class="chip" onclick="showFineFilter('shoes')">👟 鞋子</span>
+            </div>
+          </div>
+
+          <!-- AI Float -->
+          <div class="ai-float-btn" style="position:absolute;bottom:130px;right:16px;" onclick="showAiChat()">
+            <svg width="28" height="28" viewBox="0 0 60 60">
+              <circle cx="30" cy="30" r="26" fill="#FFF3E0" stroke="#2D2D2D" stroke-width="2.5"/>
+              <circle cx="22" cy="26" r="4" fill="#2D2D2D"/>
+              <circle cx="38" cy="26" r="4" fill="#2D2D2D"/>
+              <circle cx="24" cy="24" r="1.5" fill="white"/>
+              <circle cx="40" cy="24" r="1.5" fill="white"/>
+              <ellipse cx="30" cy="36" rx="5" ry="3.5" fill="#2D2D2D"/>
+              <path d="M26,40 Q30,45 34,40" stroke="#2D2D2D" stroke-width="2" fill="none" stroke-linecap="round"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Wardrobe Page Content (hidden by default) -->
+        <div id="stylelab-wardrobe" style="display:none;">
+          <!-- Wardrobe Modules -->
+          <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding:16px;">
+            <div class="card-hand sticker" style="text-align:center;cursor:pointer;" onclick="showWardrobeDetail('closet')">
+              <div style="font-size:36px;margin-bottom:4px;">👗</div>
+              <div style="font-size:14px;font-weight:600;">我的衣柜</div>
+              <div style="font-size:11px;color:var(--text-muted);">23件单品</div>
+            </div>
+            <div class="card-hand sticker" style="text-align:center;cursor:pointer;" onclick="showWardrobeDetail('outfit')">
+              <div style="font-size:36px;margin-bottom:4px;">✨</div>
+              <div style="font-size:14px;font-weight:600;">我的套装</div>
+              <div style="font-size:11px;color:var(--text-muted);">8套搭配</div>
+            </div>
+            <div class="card-hand sticker" style="text-align:center;cursor:pointer;" onclick="showWardrobeDetail('collection')">
+              <div style="font-size:36px;margin-bottom:4px;">💖</div>
+              <div style="font-size:14px;font-weight:600;">我的收藏</div>
+              <div style="font-size:11px;color:var(--text-muted);">56件灵感</div>
+            </div>
+            <div class="card-hand sticker" style="text-align:center;cursor:pointer;" onclick="showWardrobeDetail('wall')">
+              <div style="font-size:36px;margin-bottom:4px;">🖼️</div>
+              <div style="font-size:14px;font-weight:600;">我的灵感墙</div>
+              <div style="font-size:11px;color:var(--text-muted);">瀑布流收藏</div>
+            </div>
+            <div class="card-hand sticker" style="text-align:center;cursor:pointer;grid-column:1/-1;" onclick="showVirtualAvatar()">
+              <div style="font-size:36px;margin-bottom:4px;">🧸</div>
+              <div style="font-size:14px;font-weight:600;">我的虚拟形象</div>
+              <div style="font-size:11px;color:var(--text-muted);">创建你的数字穿搭模特</div>
+            </div>
+            <div class="card-hand sticker" style="text-align:center;cursor:pointer;grid-column:1/-1;" onclick="showMultiAvatar()">
+              <div style="font-size:36px;margin-bottom:4px;">👯‍♀️</div>
+              <div style="font-size:14px;font-weight:600;">多人换装空间</div>
+              <div style="font-size:11px;color:var(--text-muted);">闺蜜搭 · 情侣搭 · 室友搭 · 宠物搭</div>
+            </div>
+          </div>
+          <div style="height:20px;"></div>
+        </div>
+      </div>
+
+      <!-- ============================================
+           PAGE 3: 搭搭桌面 (Community)
+           ============================================ -->
+      <div class="page" id="page-community">
+        <div style="padding:12px 16px;">
+          <span class="hand-title">搭搭桌面</span>
+          <span style="font-size:12px;color:var(--text-muted);margin-left:6px;">年轻人的穿搭灵感墙</span>
+        </div>
+
+        <!-- Search + Post -->
+        <div class="community-header">
+          <div class="search-bar" style="flex:1;margin:0;">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            <span style="font-size:13px;color:var(--text-muted);">搜索灵感、话题...</span>
+          </div>
+          <button class="post-btn" onclick="showCreatePost()">+ 发帖</button>
+        </div>
+
+        <!-- Hot Tags -->
+        <div class="tag-scroll">
+          <span class="chip active">全部</span>
+          <span class="chip">🔥 今日热门</span>
+          <span class="chip">🌸 OOTD</span>
+          <span class="chip">🐶 宠物搭</span>
+          <span class="chip">🏙️ citywalk</span>
+          <span class="chip">💭 mood分享</span>
+          <span class="chip">🎨 穿搭灵感</span>
+          <span class="chip">👯 闺蜜搭</span>
+        </div>
+
+        <!-- Waterfall Feed -->
+        <div class="waterfall" style="padding-top:8px;">
+          <div class="waterfall-card" onclick="showPostDetail()">
+            <div class="card-img" style="height:200px;"><span style="font-size:52px;">🌸</span></div>
+            <div class="card-info">
+              <div class="card-title">春日樱花OOTD 🌸</div>
+              <div class="card-meta">👤 樱花少女 · ❤️ 3.2k · 💬 128</div>
+            </div>
+          </div>
+          <div class="waterfall-card">
+            <div class="card-img" style="height:160px;"><span style="font-size:44px;">🐱</span></div>
+            <div class="card-info">
+              <div class="card-title">今日猫系穿搭 🐱</div>
+              <div class="card-meta">👤 猫控小K · ❤️ 2.1k · 💬 89</div>
+            </div>
+          </div>
+          <div class="waterfall-card">
+            <div class="card-img" style="height:180px;"><span style="font-size:48px;">🎪</span></div>
+            <div class="card-info">
+              <div class="card-title">城市Citywalk穿搭日记</div>
+              <div class="card-meta">👤 城市漫步者 · ❤️ 5.7k · 💬 256</div>
+            </div>
+          </div>
+          <div class="waterfall-card">
+            <div class="card-img" style="height:220px;"><span style="font-size:56px;">🎨</span></div>
+            <div class="card-info">
+              <div class="card-title">多巴胺穿搭一周合集 🌈</div>
+              <div class="card-meta">👤 色彩大师 · ❤️ 8.9k · 💬 342</div>
+            </div>
+          </div>
+          <div class="waterfall-card">
+            <div class="card-img" style="height:150px;"><span style="font-size:40px;">👯‍♀️</span></div>
+            <div class="card-info">
+              <div class="card-title">闺蜜出街：情侣穿搭</div>
+              <div class="card-meta">👤 番茄炒蛋组合 · ❤️ 4.5k · 💬 167</div>
+            </div>
+          </div>
+          <div class="waterfall-card">
+            <div class="card-img" style="height:190px;"><span style="font-size:46px;">🐶</span></div>
+            <div class="card-info">
+              <div class="card-title">宠物搭：和狗狗穿同款！</div>
+              <div class="card-meta">👤 小福星 · ❤️ 6.1k · 💬 298</div>
+            </div>
+          </div>
+        </div>
+        <div style="height:20px;"></div>
+      </div>
+
+      <!-- ============================================
+           PAGE 4: 逛福窗口 (Explore Map)
+           ============================================ -->
+      <div class="page" id="page-explore">
+        <div style="padding:12px 16px;">
+          <span class="hand-title">逛福窗口</span>
+          <span style="font-size:12px;color:var(--text-muted);margin-left:6px;">阿福带你逛遍全城 🐶</span>
+        </div>
+
+        <!-- Search -->
+        <div class="search-bar" style="margin-bottom:12px;">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          <span style="font-size:13px;color:var(--text-muted);">搜索附近门店、活动...</span>
+        </div>
+
+        <!-- Map Area (decorative) -->
+        <div style="margin:0 16px;height:160px;background:linear-gradient(135deg,#E8F5E9,#FFF8E1);border-radius:20px;border:2px solid var(--border-hand);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;">
+          <svg style="position:absolute;width:100%;height:100%;" viewBox="0 0 360 160">
+            <path d="M50,80 Q100,40 180,70 Q250,95 310,60" stroke="#5EDC7C" stroke-width="2" fill="none" opacity="0.3"/>
+            <path d="M30,100 Q120,60 200,90 Q280,110 340,80" stroke="#4A90FF" stroke-width="1.5" fill="none" opacity="0.2"/>
+            <circle cx="120" cy="70" r="8" fill="#FF4757" opacity="0.6"/>
+            <circle cx="200" cy="85" r="6" fill="#FF8C42" opacity="0.6"/>
+            <circle cx="280" cy="65" r="7" fill="#4A90FF" opacity="0.6"/>
+            <circle cx="160" cy="100" r="5" fill="#A78BFA" opacity="0.6"/>
+          </svg>
+          <div style="position:relative;z-index:2;text-align:center;">
+            <div style="font-size:40px;margin-bottom:4px;">🗺️</div>
+            <div style="font-size:13px;font-weight:600;color:var(--text);">阿福推荐路线：文艺逛街之旅</div>
+            <div style="font-size:11px;color:var(--text-muted);">📍 3家门店 · 步行15分钟</div>
+          </div>
+        </div>
+
+        <!-- Nearby Stores -->
+        <div class="section-header">
+          <div class="title">📍 附近门店</div>
+          <div class="more">查看地图 →</div>
+        </div>
+        <div class="map-sticker-grid">
+          <div class="map-sticker">
+            <div class="sticker-icon" style="background:#FFF5F5;">🏪</div>
+            <div style="font-size:13px;font-weight:600;">三福·潮流旗舰店</div>
+            <div style="font-size:11px;color:var(--text-muted);">📍 中山路128号</div>
+            <div style="font-size:11px;color:#5EDC7C;">🟢 营业中 · 距你320m</div>
+          </div>
+          <div class="map-sticker">
+            <div class="sticker-icon" style="background:#FFF8F0;">🛍️</div>
+            <div style="font-size:13px;font-weight:600;">三福·少女馆</div>
+            <div style="font-size:11px;color:var(--text-muted);">📍 解放路56号</div>
+            <div style="font-size:11px;color:#5EDC7C;">🟢 营业中 · 距你580m</div>
+          </div>
+          <div class="map-sticker">
+            <div class="sticker-icon" style="background:#F5F8FF;">👗</div>
+            <div style="font-size:13px;font-weight:600;">三福·穿搭概念店</div>
+            <div style="font-size:11px;color:var(--text-muted);">📍 文化路88号</div>
+            <div style="font-size:11px;color:#FF8C42;">🟠 即将打烊 · 距你1.2km</div>
+          </div>
+          <div class="map-sticker">
+            <div class="sticker-icon" style="background:#FFF8FF;">🎪</div>
+            <div style="font-size:13px;font-weight:600;">三福·快闪活动店</div>
+            <div style="font-size:11px;color:var(--text-muted);">📍 星光广场B1</div>
+            <div style="font-size:11px;color:#5EDC7C;">🟢 营业中 · 距你890m</div>
+          </div>
+        </div>
+
+        <!-- Today's Activities -->
+        <div class="section-header">
+          <div class="title">🎪 今日活动</div>
+          <div class="more">全部 →</div>
+        </div>
+        <div style="padding:0 16px;">
+          <div class="card-hand" style="margin-bottom:10px;display:flex;gap:12px;align-items:center;">
+            <div style="width:70px;height:70px;background:linear-gradient(135deg,#FFE0D0,#FFD0C0);border-radius:16px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:32px;">🎨</div>
+            <div>
+              <div style="font-size:14px;font-weight:600;">手绘帆布鞋DIY工坊</div>
+              <div style="font-size:11px;color:var(--text-muted);">📍 中山路旗舰店 · 今天 14:00</div>
+              <div style="font-size:11px;color:var(--red);">🔥 仅剩3个名额</div>
+            </div>
+          </div>
+          <div class="card-hand" style="display:flex;gap:12px;align-items:center;">
+            <div style="width:70px;height:70px;background:linear-gradient(135deg,#E8F0FF,#D8E8FF);border-radius:16px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:32px;">👗</div>
+            <div>
+              <div style="font-size:14px;font-weight:600;">夏日穿搭分享会</div>
+              <div style="font-size:11px;color:var(--text-muted);">📍 少女馆 · 明天 15:00</div>
+              <div style="font-size:11px;color:var(--green);">🟢 可报名</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Check-in打卡 -->
+        <div class="section-header">
+          <div class="title">✅ 打卡地图</div>
+          <div class="more">查看 →</div>
+        </div>
+        <div style="padding:0 16px 20px;">
+          <div class="card-hand">
+            <div style="font-size:13px;font-weight:600;margin-bottom:8px;">本月打卡进度</div>
+            <div class="checkin-dots" style="margin-bottom:4px;">
+              <span class="checkin-dot"></span><span class="checkin-dot"></span><span class="checkin-dot"></span><span class="checkin-dot"></span><span class="checkin-dot"></span><span class="checkin-dot"></span><span class="checkin-dot"></span><span class="checkin-dot empty"></span><span class="checkin-dot empty"></span><span class="checkin-dot empty"></span><span class="checkin-dot empty"></span><span class="checkin-dot empty"></span>
+            </div>
+            <div style="font-size:12px;color:var(--text-muted);">已打卡 7 家门店 · 再打卡 3 家解锁阿福限定贴纸！</div>
+          </div>
+        </div>
+        <div style="height:20px;"></div>
+      </div>
+
+      <!-- ============================================
+           PAGE 5: 我的福盒 (Profile)
+           ============================================ -->
+      <div class="page" id="page-profile">
+        <!-- Profile Header -->
+        <div class="profile-header">
+          <div class="profile-avatar">
+            <svg width="70" height="70" viewBox="0 0 140 140">
+              <circle cx="70" cy="70" r="65" fill="#FFF3E0" stroke="#2D2D2D" stroke-width="3"/>
+              <circle cx="55" cy="62" r="9" fill="#2D2D2D"/>
+              <circle cx="85" cy="62" r="9" fill="#2D2D2D"/>
+              <circle cx="58" cy="59" r="3" fill="white"/>
+              <circle cx="88" cy="59" r="3" fill="white"/>
+              <ellipse cx="70" cy="78" rx="8" ry="6" fill="#2D2D2D"/>
+              <path d="M63,84 Q70,92 77,84" stroke="#2D2D2D" stroke-width="3" fill="none" stroke-linecap="round"/>
+              <rect x="54" y="30" width="32" height="8" rx="4" fill="#FF6B8A" stroke="#2D2D2D" stroke-width="2.5"/>
+              <rect x="58" y="16" width="24" height="18" rx="7" fill="#FF6B8A" stroke="#2D2D2D" stroke-width="2.5"/>
+            </svg>
+          </div>
+          <div style="font-size:18px;font-weight:700;color:var(--text);">搭搭星人·小美</div>
+          <div style="font-size:13px;color:var(--text-muted);margin-top:4px;">🌸 今天是甜甜的一天～</div>
+          <div style="display:flex;gap:8px;justify-content:center;margin-top:8px;">
+            <span style="font-size:11px;background:#FFF0F0;color:var(--red);padding:2px 8px;border-radius:8px;">🌟 穿搭达人 Lv.3</span>
+          </div>
+        </div>
+
+        <!-- Membership Card -->
+        <div class="membership-card">
+          <div>
+            <div style="font-size:14px;font-weight:700;">🐶 阿福会员卡</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">积分: 2,860 · 今日福利待领取</div>
+          </div>
+          <div style="width:50px;height:50px;background:white;border-radius:10px;display:flex;align-items:center;justify-content:center;border:2px solid #E8DCC8;">📱</div>
+        </div>
+
+        <!-- Menu Groups -->
+        <div class="menu-list">
+          <!-- 创作与管理 -->
+          <div class="menu-group">
+            <div class="menu-group-title">📚 创作与管理</div>
+            <div class="menu-item">
+              <div class="menu-left"><span class="menu-icon" style="background:#FFF5F5;">✏️</span><span class="menu-label">创作者中心</span></div>
+              <div style="display:flex;align-items:center;gap:8px;"><span class="badge-new">新</span><span class="menu-arrow">›</span></div>
+            </div>
+            <div class="menu-item">
+              <div class="menu-left"><span class="menu-icon" style="background:#FFF8F0;">📝</span><span class="menu-label">我的帖子</span></div>
+              <span class="menu-arrow">›</span>
+            </div>
+            <div class="menu-item">
+              <div class="menu-left"><span class="menu-icon" style="background:#FFF8FF;">💖</span><span class="menu-label">我的收藏</span></div>
+              <span class="menu-arrow">›</span>
+            </div>
+          </div>
+
+          <!-- 个人设置 -->
+          <div class="menu-group">
+            <div class="menu-group-title">👤 个人设置</div>
+            <div class="menu-item" onclick="showVirtualAvatar()">
+              <div class="menu-left"><span class="menu-icon" style="background:#F5F8FF;">🧸</span><span class="menu-label">虚拟形象</span></div>
+              <span class="menu-arrow">›</span>
+            </div>
+            <div class="menu-item">
+              <div class="menu-left"><span class="menu-icon" style="background:#F5FFF5;">📊</span><span class="menu-label">风格档案</span></div>
+              <span class="menu-arrow">›</span>
+            </div>
+          </div>
+
+          <!-- 购物与足迹 -->
+          <div class="menu-group">
+            <div class="menu-group-title">🛒 购物与足迹</div>
+            <div class="menu-item">
+              <div class="menu-left"><span class="menu-icon" style="background:#FFFBF0;">👣</span><span class="menu-label">我的足迹</span></div>
+              <span class="menu-arrow">›</span>
+            </div>
+            <div class="menu-item">
+              <div class="menu-left"><span class="menu-icon" style="background:#FFF5F0;">📦</span><span class="menu-label">我的订单</span></div>
+              <span class="menu-arrow">›</span>
+            </div>
+            <div class="menu-item">
+              <div class="menu-left"><span class="menu-icon" style="background:#FFF8FF;">👑</span><span class="menu-label">会员中心</span></div>
+              <span class="menu-arrow">›</span>
+            </div>
+          </div>
+
+          <!-- 设置与帮助 -->
+          <div class="menu-group">
+            <div class="menu-group-title">⚙️ 设置与帮助</div>
+            <div class="menu-item">
+              <div class="menu-left"><span class="menu-icon" style="background:#F5F5F5;">🔔</span><span class="menu-label">消息通知</span></div>
+              <span class="menu-arrow">›</span>
+            </div>
+            <div class="menu-item" onclick="showSettings()">
+              <div class="menu-left"><span class="menu-icon" style="background:#F5F5F5;">⚙️</span><span class="menu-label">设置</span></div>
+              <span class="menu-arrow">›</span>
+            </div>
+            <div class="menu-item">
+              <div class="menu-left"><span class="menu-icon" style="background:#F5F5F5;">💬</span><span class="menu-label">客服帮助</span></div>
+              <span class="menu-arrow">›</span>
+            </div>
+            <div class="menu-item">
+              <div class="menu-left"><span class="menu-icon" style="background:#F5F5F5;">ℹ️</span><span class="menu-label">关于搭搭星球</span></div>
+              <span class="menu-arrow">›</span>
+            </div>
+          </div>
+        </div>
+        <div style="height:20px;"></div>
+      </div>
+
+      <!-- ============================================
+           MODALS & OVERLAYS
+           ============================================ -->
+
+      <!-- Fine Filter Modal -->
+      <div class="modal-overlay" id="modalFineFilter">
+        <div class="modal-sheet">
+          <div class="modal-handle"></div>
+          <div style="font-size:16px;font-weight:700;margin-bottom:16px;font-family:var(--font-hand);" id="fineFilterTitle">选择上装</div>
+          <div class="radio-sticker" id="fineFilterOptions">
+            <input type="radio" name="fine" id="ff1" checked><label for="ff1">T恤</label>
+            <input type="radio" name="fine" id="ff2"><label for="ff2">衬衫</label>
+            <input type="radio" name="fine" id="ff3"><label for="ff3">卫衣</label>
+            <input type="radio" name="fine" id="ff4"><label for="ff4">针织衫</label>
+            <input type="radio" name="fine" id="ff5"><label for="ff5">吊带</label>
+            <input type="radio" name="fine" id="ff6"><label for="ff6">西装外套</label>
+          </div>
+          <button class="btn-primary" style="width:100%;margin-top:20px;" onclick="closeModal('modalFineFilter')">确定 ✓</button>
+        </div>
+      </div>
+
+      <!-- Post Detail Modal -->
+      <div class="modal-overlay" id="modalPost">
+        <div class="modal-sheet" style="max-height:85%;">
+          <div class="modal-handle"></div>
+          <div class="journal-post" style="margin:0;">
+            <div class="journal-header">
+              <div style="width:36px;height:36px;border-radius:50%;background:#FFF3E0;border:2px solid var(--border-hand);display:flex;align-items:center;justify-content:center;">🐶</div>
+              <div>
+                <div style="font-size:14px;font-weight:600;">小樱花</div>
+                <div style="font-size:11px;color:var(--text-muted);">2小时前 · 中山路</div>
+              </div>
+            </div>
+            <div style="font-size:14px;color:var(--text);margin-bottom:8px;">今日份的春日樱花约会穿搭！🌸 选了这条新买的碎花裙，搭配白色玛丽珍和小包包，整个人都是春天的感觉～</div>
+            <div class="journal-img"><span style="font-size:64px;">🌸</span></div>
+            <div class="sticker-row">
+              <span class="sticker-tag">🌸 #春日穿搭</span>
+              <span class="sticker-tag">👗 #约会ootd</span>
+              <span class="sticker-tag">🐶 #宠物搭</span>
+            </div>
+            <div style="display:flex;gap:20px;margin-top:8px;font-size:13px;color:var(--text-muted);">
+              <span>❤️ 2.3k</span><span>💬 128</span><span>⭐ 收藏</span>
+            </div>
+          </div>
+          <div style="padding:12px 16px;font-size:14px;font-weight:600;color:var(--text);">便利贴评论</div>
+          <div style="padding:0 16px;">
+            <div class="comment-sticky">🌸 好美好春天！求裙子链接～</div>
+            <div class="comment-sticky">🐶 阿福太可爱了，想rua！</div>
+            <div class="comment-sticky">💕 姐妹穿搭绝了，种草玛丽珍</div>
+            <div class="comment-sticky">📍 求问这个拍摄地点在哪里呀</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- AI Chat Modal -->
+      <div class="modal-overlay" id="modalAiChat">
+        <div class="modal-sheet">
+          <div class="modal-handle"></div>
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+            <div style="width:40px;height:40px;border-radius:50%;background:#FFF3E0;border:2px solid var(--border-hand);display:flex;align-items:center;justify-content:center;">
+              <svg width="30" height="30" viewBox="0 0 60 60"><circle cx="30" cy="30" r="24" fill="#FFF3E0" stroke="#2D2D2D" stroke-width="2"/><circle cx="22" cy="25" r="4" fill="#2D2D2D"/><circle cx="38" cy="25" r="4" fill="#2D2D2D"/><circle cx="24" cy="23" r="1.5" fill="white"/><circle cx="40" cy="23" r="1.5" fill="white"/><ellipse cx="30" cy="35" rx="5" ry="3.5" fill="#2D2D2D"/><path d="M26,39 Q30,44 34,39" stroke="#2D2D2D" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+            </div>
+            <div>
+              <div style="font-size:15px;font-weight:700;">阿福AI搭子</div>
+              <div style="font-size:11px;color:var(--green);">在线</div>
+            </div>
+          </div>
+          <!-- Chat messages -->
+          <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:16px;">
+            <div class="afu-bubble" style="padding:0;">
+              <div class="afu-avatar" style="width:34px;height:34px;">
+                <svg width="28" height="28" viewBox="0 0 60 60"><circle cx="30" cy="30" r="24" fill="#FFF3E0" stroke="#2D2D2D" stroke-width="2"/><circle cx="22" cy="26" r="3" fill="#2D2D2D"/><circle cx="38" cy="26" r="3" fill="#2D2D2D"/></svg>
+              </div>
+              <div class="bubble-text">嗨～今天想搭什么风格呢？阿福帮你找灵感！🐶</div>
+            </div>
+            <div style="display:flex;justify-content:flex-end;">
+              <div style="background:var(--text);color:white;border-radius:18px 18px 6px 18px;padding:10px 14px;font-size:13px;max-width:200px;">推荐一个约会穿搭吧～</div>
+            </div>
+            <div class="afu-bubble" style="padding:0;">
+              <div class="afu-avatar" style="width:34px;height:34px;">
+                <svg width="28" height="28" viewBox="0 0 60 60"><circle cx="30" cy="30" r="24" fill="#FFF3E0" stroke="#2D2D2D" stroke-width="2"/><circle cx="22" cy="26" r="3" fill="#2D2D2D"/><circle cx="38" cy="26" r="3" fill="#2D2D2D"/></svg>
+              </div>
+              <div class="bubble-text">推荐你试试碎花裙+小白鞋的组合！🌼 清新自然又甜美，很适合约会～附近的旗舰店刚好有类似款，要不要去看看？</div>
+            </div>
+          </div>
+          <!-- Quick replies -->
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
+            <span class="chip" style="background:#FFF5F5;">👗 推荐穿搭</span>
+            <span class="chip" style="background:#FFF8F0;">📍 附近门店</span>
+            <span class="chip" style="background:#F5F8FF;">🎨 今日风格</span>
+            <span class="chip" style="background:#FFF8FF;">💭 mood分析</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Virtual Avatar Modal -->
+      <div class="modal-overlay" id="modalVirtualAvatar">
+        <div class="modal-sheet" style="max-height:85%;">
+          <div class="modal-handle"></div>
+          <div style="font-family:var(--font-hand);font-size:18px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px;">
+            🧸 创建我的虚拟形象
+          </div>
+
+          <!-- Avatar Switch Row -->
+          <div style="font-size:13px;font-weight:600;color:var(--text);padding:0 4px 8px;">选择形象</div>
+          <div class="avatar-switch-row" id="avatarSwitchRow">
+            <div class="avatar-switch-item active" onclick="switchAvatar(this)">
+              <div class="switch-circle">🧍‍♀️</div>
+              <span class="switch-label">我自己</span>
+            </div>
+            <div class="avatar-switch-item" onclick="switchAvatar(this)">
+              <div class="switch-circle">👯‍♀️</div>
+              <span class="switch-label">闺蜜</span>
+            </div>
+            <div class="avatar-switch-item" onclick="switchAvatar(this)">
+              <div class="switch-circle">💑</div>
+              <span class="switch-label">情侣</span>
+            </div>
+            <div class="avatar-switch-item" onclick="switchAvatar(this)">
+              <div class="switch-circle">🏠</div>
+              <span class="switch-label">室友</span>
+            </div>
+            <div class="avatar-switch-item" onclick="switchAvatar(this)">
+              <div class="switch-circle">🦄</div>
+              <span class="switch-label">虚拟角色</span>
+            </div>
+          </div>
+
+          <!-- Form Fields -->
+          <div class="form-card" style="margin:12px 0;">
+            <div class="form-row"><span class="form-label">身高</span><span class="form-value">165 cm</span></div>
+            <div class="form-row"><span class="form-label">体重</span><span class="form-value">50 kg</span></div>
+            <div class="form-row"><span class="form-label">三围</span><span class="form-value">85 - 62 - 88</span></div>
+            <div class="form-row"><span class="form-label">鞋码</span><span class="form-value">37</span></div>
+            <div class="form-row"><span class="form-label">脸型</span><span class="form-value">鹅蛋脸</span></div>
+            <div class="form-row"><span class="form-label">发型</span><span class="form-value">长发</span></div>
+            <div class="form-row"><span class="form-label">肤色</span><span class="form-value">自然色</span></div>
+            <div class="form-row"><span class="form-label">风格偏好</span><span class="form-value">clean fit / 氛围感</span></div>
+          </div>
+
+          <!-- Upload -->
+          <div class="form-card">
+            <div style="font-size:13px;font-weight:600;margin-bottom:8px;">上传照片生成虚拟形象</div>
+            <div class="upload-zone" onclick="alert('上传功能')">
+              <span style="font-size:28px;">📸</span>
+              <span>点击上传正面照或全身照</span>
+              <span style="font-size:10px;color:var(--text-muted);">支持 JPG / PNG</span>
+            </div>
+          </div>
+
+          <button class="btn-primary" style="width:100%;margin-top:8px;" onclick="closeModal('modalVirtualAvatar')">🐶 阿福帮你生成形象！</button>
+        </div>
+      </div>
+
+      <!-- Multi Avatar Modal -->
+      <div class="modal-overlay" id="modalMultiAvatar">
+        <div class="modal-sheet">
+          <div class="modal-handle"></div>
+          <div style="font-family:var(--font-hand);font-size:18px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px;">
+            👯‍♀️ 多人换装空间
+          </div>
+          <div style="font-size:13px;color:var(--text-muted);margin-bottom:12px;">像穿搭工作室一样，多人一起搭配！</div>
+          <div class="multi-hanger">
+            <div class="hanger-slot">
+              <span style="font-size:28px;">🧍‍♀️</span>
+              <span style="font-size:10px;color:var(--text-muted);">我</span>
+            </div>
+            <div style="font-size:24px;color:var(--pink);display:flex;align-items:center;">💕</div>
+            <div class="hanger-slot">
+              <span style="font-size:28px;">🧍‍♂️</span>
+              <span style="font-size:10px;color:var(--text-muted);">男友</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
+            <span class="chip active">👫 情侣搭</span>
+            <span class="chip">👯‍♀️ 闺蜜搭</span>
+            <span class="chip">🏠 室友搭</span>
+            <span class="chip">🐶 宠物搭</span>
+          </div>
+          <div class="card-hand" style="text-align:center;margin-bottom:8px;">
+            <div style="font-size:14px;font-weight:600;">今日情侣穿搭</div>
+            <div style="font-size:12px;color:var(--text-muted);">色系统一 · 风格呼应</div>
+          </div>
+          <button class="btn-primary" style="width:100%;" onclick="closeModal('modalMultiAvatar')">开始搭配 ✨</button>
+        </div>
+      </div>
+
+      <!-- Create Post Modal -->
+      <div class="modal-overlay" id="modalCreatePost">
+        <div class="modal-sheet" style="max-height:85%;">
+          <div class="modal-handle"></div>
+          <div style="font-family:var(--font-hand);font-size:18px;font-weight:700;margin-bottom:12px;">📝 发布穿搭日记</div>
+          <div class="upload-zone" style="margin-bottom:12px;">
+            <span style="font-size:28px;">📸</span>
+            <span>添加照片或视频</span>
+          </div>
+          <textarea placeholder="分享你的穿搭灵感..." style="width:100%;height:80px;border:2px solid var(--border-hand);border-radius:16px;padding:12px;font-family:var(--font-main);font-size:14px;resize:none;outline:none;background:#FFFDF9;"></textarea>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin:12px 0;">
+            <span class="chip">😊 emoji</span>
+            <span class="chip">⭐ 贴纸</span>
+            <span class="chip">🎨 涂鸦</span>
+            <span class="chip">📍 添加位置</span>
+            <span class="chip">🏷️ 添加标签</span>
+          </div>
+          <button class="btn-primary" style="width:100%;" onclick="closeModal('modalCreatePost')">发布到搭搭星球 🚀</button>
+        </div>
+      </div>
+
+      <!-- Settings Modal -->
+      <div class="modal-overlay" id="modalSettings">
+        <div class="modal-sheet">
+          <div class="modal-handle"></div>
+          <div style="font-family:var(--font-hand);font-size:18px;font-weight:700;margin-bottom:16px;">⚙️ 设置</div>
+          <div class="form-card">
+            <div class="form-row"><span class="form-label">账号安全</span><span class="menu-arrow">›</span></div>
+            <div class="form-row"><span class="form-label">隐私设置</span><span class="menu-arrow">›</span></div>
+            <div class="form-row"><span class="form-label">通知设置</span><span class="menu-arrow">›</span></div>
+            <div class="form-row"><span class="form-label">深色模式</span><span style="width:44px;height:24px;background:#DDD;border-radius:12px;position:relative;"><span style="position:absolute;top:2px;left:2px;width:20px;height:20px;background:white;border-radius:50%;transition:0.2s;"></span></span></div>
+            <div class="form-row"><span class="form-label">清除缓存</span><span style="color:var(--text-muted);font-size:13px;">128MB</span></div>
+            <div class="form-row"><span class="form-label">当前版本</span><span style="color:var(--text-muted);font-size:13px;">v1.0.0 搭搭星球</span></div>
+          </div>
+          <button class="btn-primary" style="width:100%;margin-top:12px;background:#FF4757;" onclick="closeModal('modalSettings')">退出登录</button>
+        </div>
+      </div>
+
+      <!-- Search Overlay -->
+      <div class="modal-overlay" id="modalSearch">
+        <div class="modal-sheet">
+          <div class="modal-handle"></div>
+          <div class="search-bar" style="margin:0 0 12px;">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            <input type="text" placeholder="搜索穿搭、活动、门店...">
+          </div>
+          <div style="font-size:13px;font-weight:600;margin-bottom:8px;color:var(--text);">🔥 热门搜索</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <span class="chip">约会穿搭</span><span class="chip">Y2K</span><span class="chip">多巴胺</span>
+            <span class="chip">citywalk</span><span class="chip">宠物搭</span><span class="chip">闺蜜装</span>
+            <span class="chip">夏日穿搭</span><span class="chip">帆布鞋</span>
+          </div>
+          <button class="btn-primary" style="width:100%;margin-top:16px;" onclick="closeModal('modalSearch')">搜索</button>
+        </div>
+      </div>
+
+    </div><!-- /app-container -->
+
+    <!-- ============================================
+         Bottom Navigation
+         ============================================ -->
+    <div class="bottom-nav">
+      <button class="nav-item active" onclick="switchTab(0)" data-tab="0">
+        <div class="nav-icon">
+          <svg width="26" height="26" viewBox="0 0 50 50">
+            <rect x="8" y="12" width="34" height="30" rx="6" fill="none" stroke="#2D2D2D" stroke-width="2.8" stroke-linejoin="round"/>
+            <path d="M18,24 L25,16 L32,24" fill="none" stroke="#2D2D2D" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <rect x="20" y="24" width="4" height="10" fill="#2D2D2D" rx="1"/>
+            <rect x="27" y="22" width="4" height="12" fill="#2D2D2D" rx="1"/>
+          </svg>
+        </div>
+        <span class="nav-label">首页</span>
+      </button>
+      <button class="nav-item" onclick="switchTab(1)" data-tab="1">
+        <div class="nav-icon">
+          <svg width="26" height="26" viewBox="0 0 50 50">
+            <rect x="10" y="6" width="30" height="38" rx="5" fill="none" stroke="#2D2D2D" stroke-width="2.8"/>
+            <line x1="18" y1="16" x2="32" y2="16" stroke="#2D2D2D" stroke-width="2.2" stroke-linecap="round"/>
+            <line x1="18" y1="22" x2="32" y2="22" stroke="#2D2D2D" stroke-width="2.2" stroke-linecap="round"/>
+            <line x1="18" y1="28" x2="26" y2="28" stroke="#2D2D2D" stroke-width="2.2" stroke-linecap="round"/>
+            <circle cx="35" cy="34" r="6" fill="none" stroke="#2D2D2D" stroke-width="2.2"/>
+            <line x1="32" y1="37" x2="38" y2="31" stroke="#2D2D2D" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <span class="nav-label">搭案空间</span>
+      </button>
+      <button class="nav-item" onclick="switchTab(2)" data-tab="2">
+        <div class="nav-icon">
+          <svg width="26" height="26" viewBox="0 0 50 50">
+            <rect x="6" y="8" width="38" height="34" rx="6" fill="none" stroke="#2D2D2D" stroke-width="2.8"/>
+            <circle cx="17" cy="20" r="5" fill="none" stroke="#2D2D2D" stroke-width="2.2"/>
+            <circle cx="30" cy="18" r="5" fill="none" stroke="#2D2D2D" stroke-width="2.2"/>
+            <circle cx="24" cy="34" r="5" fill="none" stroke="#2D2D2D" stroke-width="2.2"/>
+            <line x1="22" y1="24" x2="19" y2="30" stroke="#2D2D2D" stroke-width="1.8" stroke-linecap="round"/>
+            <line x1="28" y1="22" x2="28" y2="30" stroke="#2D2D2D" stroke-width="1.8" stroke-linecap="round"/>
+            <line x1="24" y1="24" x2="24" y2="30" stroke="#2D2D2D" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <span class="nav-label">搭搭桌面</span>
+      </button>
+      <button class="nav-item" onclick="switchTab(3)" data-tab="3">
+        <div class="nav-icon">
+          <svg width="26" height="26" viewBox="0 0 50 50">
+            <circle cx="25" cy="25" r="20" fill="none" stroke="#2D2D2D" stroke-width="2.8"/>
+            <circle cx="25" cy="25" r="6" fill="#2D2D2D"/>
+            <ellipse cx="25" cy="25" rx="14" ry="14" fill="none" stroke="#2D2D2D" stroke-width="1.5" stroke-dasharray="4 3"/>
+            <line x1="25" y1="5" x2="25" y2="11" stroke="#2D2D2D" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="25" y1="39" x2="25" y2="45" stroke="#2D2D2D" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="5" y1="25" x2="11" y2="25" stroke="#2D2D2D" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="39" y1="25" x2="45" y2="25" stroke="#2D2D2D" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="25" cy="25" r="2" fill="white"/>
+          </svg>
+        </div>
+        <span class="nav-label">逛福窗口</span>
+      </button>
+      <button class="nav-item" onclick="switchTab(4)" data-tab="4">
+        <div class="nav-icon">
+          <svg width="26" height="26" viewBox="0 0 50 50">
+            <rect x="6" y="14" width="38" height="28" rx="5" fill="none" stroke="#2D2D2D" stroke-width="2.8"/>
+            <path d="M12,14 L25,28 L38,14" fill="none" stroke="#2D2D2D" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="25" cy="6" r="4" fill="none" stroke="#2D2D2D" stroke-width="2.2"/>
+            <rect x="20" y="20" width="10" height="14" rx="1" fill="#2D2D2D"/>
+          </svg>
+        </div>
+        <span class="nav-label">我的福盒</span>
+      </button>
+    </div>
+
+  </div><!-- /phone-screen -->
+</div><!-- /phone-outer -->
+
+<script>
+/* ========================================
+   搭搭星球 - Interactive JavaScript
+   ======================================== */
+
+// Page routing
+const pages = [
+  document.getElementById('page-home'),
+  document.getElementById('page-stylelab'),
+  document.getElementById('page-community'),
+  document.getElementById('page-explore'),
+  document.getElementById('page-profile')
+];
+
+const navItems = document.querySelectorAll('.nav-item');
+let currentTab = 0;
+
+function switchTab(index) {
+  if (currentTab === index) return;
+
+  // Update pages
+  pages.forEach((p, i) => {
+    p.classList.toggle('active', i === index);
+  });
+
+  // Update nav
+  navItems.forEach((n, i) => {
+    n.classList.toggle('active', i === index);
+  });
+
+  currentTab = index;
+
+  // Scroll to top
+  pages[index].scrollTop = 0;
+}
+
+// Style Lab tab switching
+function switchStyleTab(tab, btn) {
+  document.querySelectorAll('#page-stylelab .tab-item').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+
+  document.getElementById('stylelab-filter').style.display = tab === 'filter' ? 'block' : 'none';
+  document.getElementById('stylelab-wardrobe').style.display = tab === 'wardrobe' ? 'block' : 'none';
+}
+
+// Filter chips toggle
+document.querySelectorAll('.filter-row .chip').forEach(chip => {
+  chip.addEventListener('click', function() {
+    const row = this.parentElement;
+    row.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+
+// Tag scroll chips
+document.querySelectorAll('.tag-scroll .chip').forEach(chip => {
+  chip.addEventListener('click', function() {
+    this.parentElement.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+
+// Modal management
+function showModal(id) {
+  document.getElementById(id).classList.add('show');
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove('show');
+}
+
+// Close modals on overlay click
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', function(e) {
+    if (e.target === this) {
+      this.classList.remove('show');
+    }
+  });
+});
+
+// Specific modal triggers
+function showSearch() { showModal('modalSearch'); }
+function showPostDetail() { showModal('modalPost'); }
+function showAiChat() { showModal('modalAiChat'); }
+function showFineFilter(type) {
+  const titles = { top: '👚 选择上装', bottom: '👖 选择下装', shoes: '👟 选择鞋子' };
+  const shoeOptions = ['板鞋', '玛丽珍', '老爹鞋', '长靴', '帆布鞋', '乐福鞋', '运动鞋', '凉鞋'];
+  const topOptions = ['T恤', '衬衫', '卫衣', '针织衫', '吊带', '西装外套', '牛仔外套', '连衣裙'];
+  const bottomOptions = ['牛仔裤', '阔腿裤', '短裙', '长裙', '工装裤', '短裤', '西装裤', '百褶裙'];
+
+  const options = type === 'shoes' ? shoeOptions : (type === 'top' ? topOptions : bottomOptions);
+
+  document.getElementById('fineFilterTitle').textContent = titles[type];
+  const container = document.getElementById('fineFilterOptions');
+  container.innerHTML = options.map((o, i) =>
+    `<input type="radio" name="fine" id="ff${i}" ${i===0?'checked':''}><label for="ff${i}">${o}</label>`
+  ).join('');
+
+  showModal('modalFineFilter');
+}
+function showVirtualAvatar() { showModal('modalVirtualAvatar'); }
+function showMultiAvatar() { showModal('modalMultiAvatar'); }
+function showCreatePost() { showModal('modalCreatePost'); }
+function showSettings() { showModal('modalSettings'); }
+
+function showWardrobeDetail(type) {
+  const titles = {
+    closet: '👗 我的衣柜',
+    outfit: '✨ 我的套装',
+    collection: '💖 我的收藏',
+    wall: '🖼️ 灵感墙'
+  };
+  alert(titles[type] + '\n\n这里是手账式数字衣橱的个人收藏空间。\n展示收藏的单品、套装和灵感。');
+}
+
+function switchAvatar(el) {
+  el.parentElement.querySelectorAll('.avatar-switch-item').forEach(i => i.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// Loading screen
+setTimeout(() => {
+  document.getElementById('loadingScreen').classList.add('hidden');
+}, 1500);
+
+// Initialize
+console.log('🐶 搭搭星球 · 年轻人的穿搭灵感社区');
+console.log('✨ 欢迎来到搭搭星球！阿福陪你探索每日风格～');
+</script>
+
+</body>
+</html>
